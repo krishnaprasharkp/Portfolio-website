@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Krishna Prashar</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+:root{
+  --bg:#FFF5E4;
+  --bg2:#FFF0D6;
+  --pink:#FF3CAC;
+  --purple:#784BA0;
+  --blue:#2B86C5;
+  --yellow:#FFD600;
+  --orange:#FF6B2B;
+  --green:#00C9A7;
+  --red:#FF2D55;
+  --ink:#1A0A2E;
+  --muted:#7B6F8A;
+}
+body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif;overflow-x:hidden;cursor:none}
+
+/* CURSOR */
+#cur{position:fixed;z-index:9999;pointer-events:none;width:20px;height:20px;border-radius:50%;background:var(--pink);transform:translate(-50%,-50%);transition:width .25s,height .25s,background .25s,border-radius .25s;mix-blend-mode:multiply}
+#cur2{position:fixed;z-index:9998;pointer-events:none;width:50px;height:50px;border-radius:50%;border:2px solid var(--purple);transform:translate(-50%,-50%);transition:all .1s ease;opacity:.5}
+
+/* LOADER */
+#ldr{position:fixed;inset:0;z-index:8000;background:var(--pink);display:flex;align-items:center;justify-content:center;transition:transform .7s cubic-bezier(.7,0,.3,1)}
+#ldr.out{transform:translateY(-100%)}
+.ldr-txt{font-family:'Unbounded',sans-serif;font-size:clamp(3rem,10vw,9rem);font-weight:900;color:#fff;letter-spacing:-.04em;animation:ldrPulse .8s ease-in-out infinite alternate}
+@keyframes ldrPulse{from{transform:scale(.98)}to{transform:scale(1.02)}}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:500;padding:1.2rem 2.5rem;display:flex;justify-content:space-between;align-items:center;background:rgba(255,245,228,.85);backdrop-filter:blur(12px);border-bottom:2px solid var(--ink)}
+.nlogo{font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:900;color:var(--ink);text-decoration:none;letter-spacing:-.03em}
+.nlogo span{color:var(--pink)}
+.nright{display:flex;align-items:center;gap:1.5rem}
+.nlinks{display:flex;gap:1.5rem;list-style:none}
+.nlinks a{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--ink);text-decoration:none;letter-spacing:.06em;font-weight:700;padding:.35rem .8rem;border:2px solid transparent;border-radius:100px;transition:all .2s}
+.nlinks a:hover{border-color:var(--ink);background:var(--yellow)}
+.nav-hire{font-family:'Unbounded',sans-serif;font-size:.7rem;font-weight:700;padding:.5rem 1.2rem;background:var(--pink);color:#fff;border-radius:100px;text-decoration:none;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);transition:all .15s}
+.nav-hire:hover{transform:translate(-2px,-2px);box-shadow:5px 5px 0 var(--ink)}
+
+/* HERO */
+#hero{min-height:100vh;padding:7rem 2.5rem 3rem;display:flex;flex-direction:column;justify-content:center;position:relative;overflow:hidden;border-bottom:2px solid var(--ink)}
+
+/* Floating blobs */
+.blob{position:absolute;border-radius:60% 40% 70% 30%/50% 60% 40% 50%;animation:morph 8s ease-in-out infinite;pointer-events:none}
+.b1{width:400px;height:400px;background:var(--pink);opacity:.18;top:-100px;right:-80px;animation-delay:0s}
+.b2{width:300px;height:300px;background:var(--yellow);opacity:.25;bottom:-80px;left:-60px;animation-delay:-3s;border-radius:40% 60% 30% 70%/60% 30% 70% 40%}
+.b3{width:200px;height:200px;background:var(--green);opacity:.2;top:40%;right:15%;animation-delay:-5s}
+@keyframes morph{0%,100%{border-radius:60% 40% 70% 30%/50% 60% 40% 50%}25%{border-radius:30% 70% 50% 50%/30% 50% 70% 70%}50%{border-radius:50% 50% 30% 70%/70% 30% 60% 40%}75%{border-radius:70% 30% 60% 40%/30% 70% 40% 60%}}
+
+/* sticker badges */
+.sticker{position:absolute;font-family:'Unbounded',sans-serif;font-weight:700;font-size:.65rem;padding:.4rem .9rem;border-radius:100px;border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);letter-spacing:.04em;animation:wiggle 3s ease-in-out infinite;pointer-events:none}
+.s1{background:var(--yellow);color:var(--ink);top:12%;right:12%;animation-delay:0s;transform:rotate(8deg)}
+.s2{background:var(--green);color:var(--ink);top:20%;right:24%;animation-delay:-.8s;transform:rotate(-5deg)}
+.s3{background:var(--purple);color:#fff;bottom:20%;right:8%;animation-delay:-1.5s;transform:rotate(3deg)}
+@keyframes wiggle{0%,100%{transform:rotate(var(--r,8deg)) translateY(0)}50%{transform:rotate(var(--r,8deg)) translateY(-6px)}}
+.s1{--r:8deg}.s2{--r:-5deg}.s3{--r:3deg}
+
+.hero-eyebrow{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--muted);letter-spacing:.12em;text-transform:uppercase;margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem}
+.hero-eyebrow::before{content:'';width:24px;height:2px;background:var(--pink)}
+
+.hero-name{font-family:'Unbounded',sans-serif;font-weight:900;font-size:clamp(3.5rem,10.5vw,11rem);letter-spacing:-.04em;line-height:.9;margin-bottom:1.5rem;position:relative;z-index:2}
+.hn-line{overflow:hidden;display:block}
+.hn-word{display:block;transform:translateY(110%);animation:slideUp .85s cubic-bezier(.16,1,.3,1) both}
+.hn-line:nth-child(1) .hn-word{animation-delay:.15s}
+.hn-line:nth-child(2) .hn-word{animation-delay:.25s;color:var(--pink)}
+.hn-line:nth-child(3) .hn-word{animation-delay:.35s;-webkit-text-stroke:2.5px var(--ink);color:transparent}
+@keyframes slideUp{to{transform:translateY(0)}}
+
+.hero-mid{display:flex;align-items:flex-start;gap:3rem;margin-bottom:2.5rem;position:relative;z-index:2}
+.hero-desc{font-size:1.05rem;color:var(--muted);line-height:1.85;max-width:420px;font-weight:400}
+.hero-desc strong{color:var(--ink);font-weight:700}
+.hero-stats-mini{display:flex;flex-direction:column;gap:.6rem;margin-left:auto;flex-shrink:0}
+.hstat{background:#fff;border:2px solid var(--ink);border-radius:12px;padding:.75rem 1.2rem;box-shadow:3px 3px 0 var(--ink);text-align:center}
+.hstat-n{font-family:'Unbounded',sans-serif;font-size:1.5rem;font-weight:900;color:var(--pink);letter-spacing:-.03em;line-height:1}
+.hstat-l{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);margin-top:.2rem;letter-spacing:.06em}
+
+.hero-btns{display:flex;gap:.75rem;flex-wrap:wrap;position:relative;z-index:2}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.9rem 2rem;font-family:'Unbounded',sans-serif;font-size:.72rem;font-weight:700;text-decoration:none;border-radius:100px;border:2px solid var(--ink);transition:all .15s;cursor:pointer;letter-spacing:.01em}
+.btn-pink{background:var(--pink);color:#fff;box-shadow:4px 4px 0 var(--ink)}
+.btn-pink:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.btn-yellow{background:var(--yellow);color:var(--ink);box-shadow:4px 4px 0 var(--ink)}
+.btn-yellow:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.btn-white{background:#fff;color:var(--ink);box-shadow:4px 4px 0 var(--ink)}
+.btn-white:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+
+/* MARQUEE */
+.mq{background:var(--ink);padding:.85rem 0;overflow:hidden;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink)}
+.mq-track{display:flex;white-space:nowrap;animation:mq 22s linear infinite}
+.mq-item{font-family:'Unbounded',sans-serif;font-size:1rem;font-weight:700;color:#fff;padding:0 1.5rem;flex-shrink:0;letter-spacing:.03em}
+.mq-dot{color:var(--pink);padding:0 .3rem}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* SECTIONS */
+.sec{padding:6rem 2.5rem;border-bottom:2px solid var(--ink)}
+.w{max-width:1200px;margin:0 auto}
+.sec-tag{display:inline-flex;align-items:center;gap:.5rem;font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;background:var(--yellow);color:var(--ink);padding:.35rem .9rem;border-radius:100px;border:2px solid var(--ink);margin-bottom:1.2rem}
+h2{font-family:'Unbounded',sans-serif;font-size:clamp(2.2rem,5vw,4.5rem);font-weight:900;letter-spacing:-.04em;line-height:.95;margin-bottom:3rem}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:4rem;align-items:start}
+.about-p{font-size:1rem;color:var(--muted);line-height:1.9;margin-bottom:1.2rem;font-weight:400}
+.about-p strong{color:var(--ink);font-weight:700}
+.isro-card{margin-top:2rem;background:var(--yellow);border:2px solid var(--ink);border-radius:16px;padding:1.5rem;box-shadow:5px 5px 0 var(--ink);position:relative;overflow:hidden}
+.isro-card::after{content:'🚀';position:absolute;right:1rem;top:.5rem;font-size:3rem;opacity:.2}
+.isro-badge{font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--ink);opacity:.6;margin-bottom:.4rem}
+.isro-card p{font-size:.92rem;color:var(--ink);font-weight:600;line-height:1.6;margin:0}
+
+/* Skills cards */
+.skills-wrap{display:flex;flex-direction:column;gap:.85rem}
+.sk-card{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:1.2rem 1.5rem;box-shadow:4px 4px 0 var(--ink);transition:transform .15s,box-shadow .15s}
+.sk-card:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink)}
+.sk-label{font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;margin-bottom:.6rem}
+.sk-pills{display:flex;flex-wrap:wrap;gap:.4rem}
+.pill{font-family:'Space Mono',monospace;font-size:.65rem;font-weight:700;padding:.25rem .65rem;border-radius:100px;border:1.5px solid var(--ink)}
+.pill.p{background:rgba(255,60,172,.12);color:var(--pink);border-color:var(--pink)}
+.pill.g{background:rgba(0,201,167,.12);color:var(--green);border-color:var(--green)}
+.pill.o{background:rgba(255,107,43,.12);color:var(--orange);border-color:var(--orange)}
+.pill.pu{background:rgba(120,75,160,.12);color:var(--purple);border-color:var(--purple)}
+
+/* PROJECTS */
+#projects{background:var(--bg2)}
+.proj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:.5rem}
+.pc{background:#fff;border:2px solid var(--ink);border-radius:20px;padding:2rem;box-shadow:5px 5px 0 var(--ink);transition:all .2s;display:flex;flex-direction:column;gap:1rem;position:relative;overflow:hidden}
+.pc:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--ink)}
+.pc-color{position:absolute;top:0;left:0;right:0;height:6px}
+.pc-ico{width:52px;height:52px;border-radius:14px;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:1.4rem;margin-top:.5rem}
+.pc-name{font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:-.03em;color:var(--ink);line-height:1.2}
+.pc-period{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--muted);letter-spacing:.08em}
+.pc-desc{font-size:.85rem;color:var(--muted);line-height:1.75;flex:1}
+.pc-tags{display:flex;flex-wrap:wrap;gap:.35rem;margin-top:auto}
+.ptag{font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;padding:.22rem .6rem;border-radius:100px;border:1.5px solid var(--ink);background:var(--bg)}
+.pc-link{display:inline-flex;align-items:center;gap:.4rem;font-family:'Unbounded',sans-serif;font-size:.65rem;font-weight:700;color:var(--pink);text-decoration:none;margin-top:.5rem;transition:gap .2s}
+.pc-link:hover{gap:.8rem}
+.wip-badge{font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;background:var(--green);color:#fff;padding:.2rem .6rem;border-radius:100px;border:1.5px solid var(--ink);display:inline-block}
+
+/* EXPERIENCE */
+.exp-stack{display:flex;flex-direction:column;gap:1.5rem}
+.ec{background:#fff;border:2px solid var(--ink);border-radius:20px;padding:2.5rem;box-shadow:5px 5px 0 var(--ink);transition:all .2s;display:grid;grid-template-columns:200px 1fr;gap:3rem;align-items:start}
+.ec:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--ink)}
+.ec-left{}
+.ec-date{font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.08em;color:var(--pink);margin-bottom:.35rem}
+.ec-org{font-size:.85rem;color:var(--muted);line-height:1.4;font-weight:500}
+.ec-right{}
+.ec-role{font-family:'Unbounded',sans-serif;font-size:1.5rem;font-weight:800;letter-spacing:-.03em;color:var(--ink);line-height:1;margin-bottom:.3rem}
+.ec-type{font-family:'Space Mono',monospace;font-size:.6rem;font-weight:700;letter-spacing:.12em;color:var(--purple);text-transform:uppercase;margin-bottom:1rem}
+.ec-ul{list-style:none;padding:0}
+.ec-ul li{font-size:.9rem;color:var(--muted);padding:.3rem 0 .3rem 1.2rem;position:relative;line-height:1.7;font-weight:400}
+.ec-ul li::before{content:'→';position:absolute;left:0;color:var(--pink);font-weight:700}
+
+/* ACHIEVEMENTS */
+#achievements{background:var(--pink)}
+#achievements h2{color:#fff}
+#achievements .sec-tag{background:#fff;color:var(--pink)}
+.ach-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
+.ac{background:#fff;border:2px solid var(--ink);border-radius:20px;padding:2rem;box-shadow:5px 5px 0 rgba(0,0,0,.15);transition:all .2s;position:relative;overflow:hidden}
+.ac:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 rgba(0,0,0,.2)}
+.ac-ghost{position:absolute;right:1rem;top:-1rem;font-family:'Unbounded',sans-serif;font-size:7rem;font-weight:900;opacity:.06;color:var(--pink);line-height:1;pointer-events:none;letter-spacing:-.04em}
+.ac-ico{font-size:2.2rem;display:block;margin-bottom:1rem}
+.ac-title{font-family:'Unbounded',sans-serif;font-size:1.1rem;font-weight:800;color:var(--ink);margin-bottom:.5rem;letter-spacing:-.02em;line-height:1.2}
+.ac-body{font-size:.85rem;color:var(--muted);line-height:1.7}
+
+/* CONTACT */
+#contact{background:var(--yellow);border-bottom:none}
+.contact-inner{text-align:center;max-width:700px;margin:0 auto;padding:6rem 2.5rem}
+#contact h2{color:var(--ink);margin-bottom:1rem}
+.contact-sub{font-size:1.05rem;color:var(--ink);opacity:.7;max-width:420px;margin:0 auto 3rem;line-height:1.8}
+.clinks{display:flex;justify-content:center;flex-wrap:wrap;gap:.75rem}
+.cl{display:inline-flex;align-items:center;gap:.6rem;padding:.9rem 1.6rem;background:#fff;border:2px solid var(--ink);border-radius:100px;text-decoration:none;color:var(--ink);font-family:'Space Mono',monospace;font-size:.68rem;font-weight:700;box-shadow:4px 4px 0 var(--ink);transition:all .15s;letter-spacing:.04em}
+.cl:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 var(--ink);background:var(--pink);color:#fff;border-color:var(--ink)}
+.contact-big{font-family:'Unbounded',sans-serif;font-size:clamp(3rem,9vw,8rem);font-weight:900;color:rgba(26,10,46,.08);letter-spacing:-.05em;margin-top:3rem;line-height:1}
+
+/* FOOTER */
+footer{background:var(--ink);padding:1.5rem 2.5rem;display:flex;justify-content:space-between;align-items:center}
+footer p{font-family:'Space Mono',monospace;font-size:.62rem;color:rgba(255,255,255,.4)}
+footer a{color:var(--pink);text-decoration:none}
+
+/* REVEAL */
+.rv{opacity:0;transform:translateY(30px);transition:opacity .65s ease,transform .65s ease}
+.rv.on{opacity:1;transform:none}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:1rem 1.5rem}
+  .nlinks .hd{display:none}
+  .about-grid,.ec{grid-template-columns:1fr;gap:2rem}
+  .proj-grid{grid-template-columns:1fr 1fr}
+  .ach-grid{grid-template-columns:1fr}
+  .sec{padding:4rem 1.5rem}
+  .hero-mid{flex-direction:column;gap:1.5rem}
+  .hero-stats-mini{flex-direction:row;margin-left:0}
+  footer{flex-direction:column;gap:.5rem}
+  .sticker{display:none}
+}
+@media(max-width:580px){
+  .proj-grid{grid-template-columns:1fr}
+  #cur,#cur2{display:none}
+  body{cursor:auto}
+}
+@media(prefers-reduced-motion:reduce){
+  .rv{opacity:1;transform:none;transition:none}
+  .blob,.sticker,.hn-word,.ldr-txt{animation:none}
+  .hn-word{transform:none;opacity:1}
+  #cur,#cur2{display:none}
+  body{cursor:auto}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="ldr"><div class="ldr-txt" id="ltxt">LOADING</div></div>
+
+<div id="cur"></div>
+<div id="cur2"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nlogo" href="#">KP<span>.</span></a>
+  <div class="nright">
+    <ul class="nlinks">
+      <li class="hd"><a href="#about">About</a></li>
+      <li class="hd"><a href="#projects">Work</a></li>
+      <li class="hd"><a href="#experience">XP</a></li>
+    </ul>
+    <a href="#contact" class="nav-hire">Hire me ✦</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="blob b3"></div>
+
+  <div class="sticker s1">🚀 ISRO AIR 35</div>
+  <div class="sticker s2">✦ SDE Aspirant</div>
+  <div class="sticker s3">1K+ Community</div>
+
+  <div class="hero-eyebrow">CS Undergraduate · GNDU Amritsar · Open to work</div>
+
+  <div class="hero-name">
+    <span class="hn-line"><span class="hn-word">KRISHNA</span></span>
+    <span class="hn-line"><span class="hn-word">PRASHAR</span></span>
+    <span class="hn-line"><span class="hn-word">BUILDS.</span></span>
+  </div>
+
+  <div class="hero-mid">
+    <p class="hero-desc">
+      Fraud detection systems. Cybersecurity simulations. AI/ML research. Founded a <strong>1,000+ member STEM community</strong>. Ranked <strong>AIR 35 at ISRO</strong> for proposing Mars agriculture domes. Currently looking for SDE roles.
+    </p>
+    <div class="hero-stats-mini">
+      <div class="hstat"><div class="hstat-n">AIR<br>35</div><div class="hstat-l">ISRO Rank</div></div>
+      <div class="hstat"><div class="hstat-n">1K+</div><div class="hstat-l">Community</div></div>
+      <div class="hstat"><div class="hstat-n">3+</div><div class="hstat-l">Projects</div></div>
+    </div>
+  </div>
+
+  <div class="hero-btns">
+    <a href="https://github.com/krishnaprasharkp" target="_blank" class="btn btn-pink">GitHub ↗</a>
+    <a href="https://www.linkedin.com/in/krishna-prashar-645371221/" target="_blank" class="btn btn-yellow">LinkedIn ↗</a>
+    <a href="#contact" class="btn btn-white">Say hello 👋</a>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="mq" aria-hidden="true">
+  <div class="mq-track">
+    <span class="mq-item">Krishna Prashar</span><span class="mq-dot">★</span>
+    <span class="mq-item">Fraud Detection</span><span class="mq-dot">★</span>
+    <span class="mq-item">ISRO AIR 35</span><span class="mq-dot">★</span>
+    <span class="mq-item">C++ · Python · ML</span><span class="mq-dot">★</span>
+    <span class="mq-item">CosmoGen Founder</span><span class="mq-dot">★</span>
+    <span class="mq-item">Cybersecurity</span><span class="mq-dot">★</span>
+    <span class="mq-item">FastAPI · AWS</span><span class="mq-dot">★</span>
+    <span class="mq-item">GNDU Amritsar</span><span class="mq-dot">★</span>
+    <span class="mq-item">Krishna Prashar</span><span class="mq-dot">★</span>
+    <span class="mq-item">Fraud Detection</span><span class="mq-dot">★</span>
+    <span class="mq-item">ISRO AIR 35</span><span class="mq-dot">★</span>
+    <span class="mq-item">C++ · Python · ML</span><span class="mq-dot">★</span>
+    <span class="mq-item">CosmoGen Founder</span><span class="mq-dot">★</span>
+    <span class="mq-item">Cybersecurity</span><span class="mq-dot">★</span>
+    <span class="mq-item">FastAPI · AWS</span><span class="mq-dot">★</span>
+    <span class="mq-item">GNDU Amritsar</span><span class="mq-dot">★</span>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section id="about" class="sec">
+  <div class="w">
+    <div class="rv"><div class="sec-tag">✦ About me</div><h2>Who is<br>Krishna?</h2></div>
+    <div class="about-grid rv">
+      <div>
+        <p class="about-p">I'm a Computer Engineering undergrad at <strong>Guru Nanak Dev University, Amritsar</strong>. I build real production-grade systems — not toy projects.</p>
+        <p class="about-p">I <strong>founded CosmoGen</strong>, GNDU's first STEM student society, scaled it to 1,000+ members, and organised <strong>CosmoHacks'25</strong> — the university's first national hackathon. I'm a <strong>Google Gemini Student Ambassador</strong> and an <strong>IMPunjab Ambassador</strong>.</p>
+        <p class="about-p">Currently contributing to <strong>AI/ML research in precision agriculture</strong> — soil analysis, crop classification, suitability prediction — under faculty guidance at GNDU.</p>
+        <div class="isro-card">
+          <div class="isro-badge">🚀 ISRO Space Competition 2022</div>
+          <p>Secured <strong>All India Rank 35</strong> for proposing radiation-proof agricultural domes to grow food on Mars for long-term human-controlled space missions.</p>
+        </div>
+      </div>
+      <div class="skills-wrap">
+        <div class="sk-card">
+          <div class="sk-label" style="color:var(--pink)">Languages</div>
+          <div class="sk-pills">
+            <span class="pill p">C++</span><span class="pill p">Python</span>
+          </div>
+        </div>
+        <div class="sk-card">
+          <div class="sk-label" style="color:var(--purple)">Core CS</div>
+          <div class="sk-pills">
+            <span class="pill pu">DSA</span><span class="pill pu">OOP</span><span class="pill pu">DBMS</span><span class="pill pu">OS</span><span class="pill pu">Networks</span>
+          </div>
+        </div>
+        <div class="sk-card">
+          <div class="sk-label" style="color:var(--green)">AI / ML</div>
+          <div class="sk-pills">
+            <span class="pill g">Scikit-learn</span><span class="pill g">Pandas</span><span class="pill g">NumPy</span><span class="pill g">ML</span>
+          </div>
+        </div>
+        <div class="sk-card">
+          <div class="sk-label" style="color:var(--orange)">Tools</div>
+          <div class="sk-pills">
+            <span class="pill o">FastAPI</span><span class="pill o">REST APIs</span><span class="pill o">AWS</span><span class="pill o">Git</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects" class="sec">
+  <div class="w">
+    <div class="rv"><div class="sec-tag">✦ Projects</div><h2>What I've<br>built.</h2></div>
+    <div class="proj-grid rv">
+
+      <div class="pc">
+        <div class="pc-color" style="background:linear-gradient(90deg,var(--pink),var(--purple))"></div>
+        <div class="pc-ico" style="background:rgba(255,60,172,.1)">🛡️</div>
+        <div class="pc-name">SentinelIQ — Fraud Detection</div>
+        <div class="pc-period">NOV 2025 – FEB 2026</div>
+        <div class="pc-desc">Scalable fraud detection platform using Python & FastAPI. Random Forest + Isolation Forest models. REST APIs for transaction analysis and real-time risk dashboards.</div>
+        <div class="pc-tags">
+          <span class="ptag">Python</span><span class="ptag">FastAPI</span><span class="ptag">ML</span><span class="ptag">REST API</span>
+        </div>
+        <a href="https://github.com/krishnaprasharkp" target="_blank" class="pc-link">View project →</a>
+      </div>
+
+      <div class="pc">
+        <div class="pc-color" style="background:linear-gradient(90deg,var(--blue),var(--green))"></div>
+        <div class="pc-ico" style="background:rgba(0,201,167,.1)">🕸️</div>
+        <div class="pc-name">VulnNet Analyzer</div>
+        <div class="pc-period">AUG 2025 – DEC 2025</div>
+        <div class="pc-desc">Cybersecurity network simulation in C++ using BFS/DFS graph traversal. Models malware propagation, node protection mechanisms, and adjacency-list graph structures.</div>
+        <div class="pc-tags">
+          <span class="ptag">C++</span><span class="ptag">DSA</span><span class="ptag">OOP</span><span class="ptag">Graphs</span>
+        </div>
+        <a href="https://github.com/krishnaprasharkp" target="_blank" class="pc-link">View project →</a>
+      </div>
+
+      <div class="pc">
+        <div class="pc-color" style="background:linear-gradient(90deg,var(--orange),var(--yellow))"></div>
+        <div class="pc-ico" style="background:rgba(255,214,0,.2)">🌾</div>
+        <div class="pc-name">AI/ML Precision Agriculture</div>
+        <div class="pc-period">APR 2026 – PRESENT</div>
+        <div class="pc-desc">Research on soil analysis, crop classification & suitability prediction using ML. Under faculty guidance at GNDU — real-world agricultural outcomes.</div>
+        <div class="pc-tags">
+          <span class="ptag">Python</span><span class="ptag">Scikit-learn</span><span class="ptag">Research</span>
+        </div>
+        <span class="wip-badge">✦ Ongoing</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="sec">
+  <div class="w">
+    <div class="rv"><div class="sec-tag">✦ Experience</div><h2>Where I've<br>led.</h2></div>
+    <div class="exp-stack rv">
+
+      <div class="ec">
+        <div class="ec-left">
+          <div class="ec-date">APR 2026 – NOW</div>
+          <div class="ec-org">Guru Nanak Dev University, Amritsar</div>
+        </div>
+        <div class="ec-right">
+          <div class="ec-role">Research Assistant</div>
+          <div class="ec-type">AI/ML · Precision Agriculture</div>
+          <ul class="ec-ul">
+            <li>AI/ML-based precision agriculture research under an Assistant Professor</li>
+            <li>Soil pattern analysis, composition classification, crop suitability prediction</li>
+            <li>Applying ML to support smarter, data-driven farming practices</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="ec">
+        <div class="ec-left">
+          <div class="ec-date">SEPT 2023 – NOW</div>
+          <div class="ec-org">CosmoGen Students Society, GNDU</div>
+        </div>
+        <div class="ec-right">
+          <div class="ec-role">Founder</div>
+          <div class="ec-type">Leadership · Community · Events</div>
+          <ul class="ec-ul">
+            <li>Founded GNDU's first STEM student society — scaled to 1,000+ members</li>
+            <li>Organised CosmoHacks'25, GNDU's first national-level hackathon</li>
+            <li>Led cross-functional teams for workshops, events, and partnerships</li>
+            <li>Managed operations and student engagement across departments</li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements" class="sec">
+  <div class="w">
+    <div class="rv"><div class="sec-tag">✦ Wins</div><h2>Awards &<br>achievements.</h2></div>
+    <div class="ach-grid rv">
+      <div class="ac">
+        <div class="ac-ghost">35</div>
+        <span class="ac-ico">🚀</span>
+        <div class="ac-title">AIR 35 — ISRO Space Competition</div>
+        <div class="ac-body">Ranked All India 35th for proposing radiation-proof agricultural domes to grow food on Mars. Long-term human space missions. 2022.</div>
+      </div>
+      <div class="ac">
+        <div class="ac-ghost">G</div>
+        <span class="ac-ico">🌐</span>
+        <div class="ac-title">Dual Student Ambassador</div>
+        <div class="ac-body">Selected as Student Ambassador at Google Gemini and Innovation Mission Punjab (IMPunjab) — two flagship regional tech programs simultaneously.</div>
+      </div>
+      <div class="ac">
+        <div class="ac-ghost">✦</div>
+        <span class="ac-ico">🏆</span>
+        <div class="ac-title">Award of Appreciation — CosmoHacks'25</div>
+        <div class="ac-body">Recognised for organising GNDU's first national-level hackathon as the driving organiser behind the entire event.</div>
+      </div>
+      <div class="ac">
+        <div class="ac-ghost">3</div>
+        <span class="ac-ico">🏏</span>
+        <div class="ac-title">3rd — GNDU Cricket (×2 years)</div>
+        <div class="ac-body">Secured 3rd position in GNDU Inter-department Cricket Tournament for two consecutive years.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner rv">
+    <div class="sec-tag" style="background:var(--pink);color:#fff;border-color:var(--ink);display:inline-flex;margin:0 auto 1.2rem">✦ Contact</div>
+    <h2>Let's build<br>something<br>together.</h2>
+    <p class="contact-sub">Open to SDE roles, ML engineering, research collabs, anything ambitious. Replies fast.</p>
+    <div class="clinks">
+      <a href="mailto:iamkrishnaprashar@gmail.com" class="cl">✉ iamkrishnaprashar@gmail.com</a>
+      <a href="https://github.com/krishnaprasharkp" target="_blank" class="cl">⌥ GitHub</a>
+      <a href="https://www.linkedin.com/in/krishna-prashar-645371221/" target="_blank" class="cl">↗ LinkedIn</a>
+      <a href="tel:+919872624400" class="cl">☎ +91 98726 24400</a>
+    </div>
+    <div class="contact-big">KP@GNDU</div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 Krishna Prashar · Amritsar, Punjab</p>
+  <p><a href="https://github.com/krishnaprasharkp">github.com/krishnaprasharkp</a></p>
+</footer>
+
+<script>
+// LOADER — slides up after 1.2s
+setTimeout(()=>document.getElementById('ldr').classList.add('out'),1200);
+
+// CURSOR
+const c=document.getElementById('cur'),c2=document.getElementById('cur2');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;c.style.left=mx+'px';c.style.top=my+'px'});
+(function a(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;c2.style.left=rx+'px';c2.style.top=ry+'px';requestAnimationFrame(a)})();
+const hEls=document.querySelectorAll('a,.pc,.ac,.ec,.sk-card,.btn');
+hEls.forEach(el=>{
+  el.addEventListener('mouseenter',()=>{c.style.width='36px';c.style.height='36px';c.style.borderRadius='8px';c2.style.width='70px';c2.style.height='70px';c2.style.borderColor='var(--pink)'});
+  el.addEventListener('mouseleave',()=>{c.style.width='20px';c.style.height='20px';c.style.borderRadius='50%';c2.style.width='50px';c2.style.height='50px';c2.style.borderColor='var(--purple)'});
+});
+
+// SCROLL REVEAL
+const obs=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('on')})},{threshold:.07});
+document.querySelectorAll('.rv').forEach(e=>obs.observe(e));
+
+// STAGGER
+document.querySelectorAll('.pc,.ac,.ec,.sk-card').forEach((el,i)=>{el.style.transitionDelay=(i*.08)+'s'});
+</script>
+</body>
+</html>
